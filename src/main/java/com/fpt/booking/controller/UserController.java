@@ -28,6 +28,20 @@ public class UserController extends BaseController {
         return createSuccessResponse("Khoảng cách từ xe tới mechanic", userService.findMechanicInRadius(latitude, longitude, type));
     }
 
+    @GetMapping("/get-all-type")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Get all type of request ticket")
+    public ResponseEntity<?> getAllType(){
+        return createSuccessResponse("Danh sách các loại dịch vụ", userService.getAllType());
+    }
+
+    @GetMapping("/get-all-status")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Get all type of request ticket")
+    public ResponseEntity<?> getAllStatus(){
+        return createSuccessResponse("Danh sách các trạng thái", userService.getAllStatus());
+    }
+
     @GetMapping("/get-all-request-ticket")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Get all request ticket")

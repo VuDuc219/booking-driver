@@ -33,6 +33,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,7 +140,7 @@ public class IUserService extends BaseService implements UserService {
     @Override
     public MessageResponse checkIn(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.CUSTOMER_CHECKED_IN);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         log.info(Constant.REQUEST_TICKET_ID + requestTicket.getId());
         requestTicketRepository.save(requestTicket);
 
@@ -154,7 +156,7 @@ public class IUserService extends BaseService implements UserService {
     @Override
     public MessageResponse approvePriceOfMechanic(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.CUSTOMER_APPROVED_PRICE);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         log.info(Constant.REQUEST_TICKET_ID + requestTicket.getId());
         requestTicketRepository.save(requestTicket);
 
@@ -171,7 +173,7 @@ public class IUserService extends BaseService implements UserService {
     @Override
     public MessageResponse paymentForGarage(Long id, PaymentRequest paymentRequest) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.PENDING_PAYMENT);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         User mechanic = userRepository.findById(requestTicket.getMechanic().getId()).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.USER_NOT_FOUND)));
         User user = getAccountById();
         if (!PaymentType.COD.equals(paymentRequest.getPaymentType()) && user.getTotalMoney() > paymentRequest.getPrice()){
@@ -211,7 +213,7 @@ public class IUserService extends BaseService implements UserService {
     @Override
     public MessageResponse canceledRequestTicket(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        if (RequestTicketsStatus.CUSTOMER_APPROVED_PRICE.equals(requestTicket.getStatus()))
+        if (RequestTicketsStatus.PROCESSING.equals(requestTicket.getStatus()))
             throw new BadRequestException("Bạn không thể hủy phiếu. Vì xe của bạn đã bắt đầu sửa chữa.");
         requestTicket.setStatus(RequestTicketsStatus.CANCELED);
         requestTicketRepository.save(requestTicket);
@@ -240,6 +242,16 @@ public class IUserService extends BaseService implements UserService {
         user.setIsMechanic(true);
         userRepository.save(user);
         return MessageResponse.builder().message("Tạo yêu cầu cho admin thành công.").build();
+    }
+
+    @Override
+    public List<RequestTicketType> getAllType() {
+        return Arrays.asList(RequestTicketType.values());
+    }
+
+    @Override
+    public List<RequestTicketsStatus> getAllStatus() {
+        return Arrays.asList(RequestTicketsStatus.values());
     }
 
     private Moto getMotoByUserOrThrow() {

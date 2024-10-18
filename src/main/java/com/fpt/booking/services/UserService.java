@@ -1,5 +1,6 @@
 package com.fpt.booking.services;
 
+import com.fpt.booking.domain.enums.RequestTicketType;
 import com.fpt.booking.domain.enums.RequestTicketsStatus;
 import com.fpt.booking.domain.payload.request.MotoRequest;
 import com.fpt.booking.domain.payload.request.PaymentRequest;
@@ -36,4 +37,8 @@ public interface UserService {
     Page<RequestTicketResponse> getAllRequestTicket(RequestTicketsStatus status, Integer pageNo, Integer pageSize);
 
     MessageResponse requestUpgradeBecomeMechanic();
+
+    List<RequestTicketType> getAllType();
+
+    List<RequestTicketsStatus> getAllStatus();
 }

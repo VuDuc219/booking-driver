@@ -80,10 +80,10 @@ public class IMechanicService extends BaseService implements MechanicService {
                         getAccountById().getGarage().getName()));
 
 
-        if (RequestTicketsStatus.GARAGE_NO_ACTION.equals(requestTicket.getStatus()) || RequestTicketsStatus.GARAGE_CONFIRMED.equals(requestTicket.getStatus())) {
+        if (RequestTicketsStatus.CONFIRMED.equals(requestTicket.getStatus())) {
             throw new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.ERROR_GARAGE_CONFIRM));
         } else {
-            requestTicket.setStatus(RequestTicketsStatus.GARAGE_CONFIRMED);
+            requestTicket.setStatus(RequestTicketsStatus.CONFIRMED);
             requestTicket.setMechanic(getAccountById());
             requestTicketRepository.save(requestTicket);
 
@@ -110,7 +110,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     @Override
     public MessageResponse fixedMoto(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.FIXED);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         log.info(Constant.REQUEST_TICKET_ID + requestTicket.getId());
         requestTicketRepository.save(requestTicket);
 
@@ -127,7 +127,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     public MessageResponse addVehicleInspectionResults(Long id, InspectionResultsRequest inspectionResultsRequest) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
         requestTicket.setDescriptionInspectionResults(inspectionResultsRequest.getDescriptionInspectionResults());
-        requestTicket.setStatus(RequestTicketsStatus.CHECKED);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         log.info(Constant.REQUEST_TICKET_ID + requestTicket.getId());
         requestTicketRepository.save(requestTicket);
 
@@ -144,7 +144,7 @@ public class IMechanicService extends BaseService implements MechanicService {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
         requestTicket.setVehicleHandoverTime(repairQuoteRequest.getVehicleHandoverTime());
         requestTicket.setPrice(repairQuoteRequest.getPrice());
-        requestTicket.setStatus(RequestTicketsStatus.WAITING_CUSTOMER_APPROVE_PRICE);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         log.info(Constant.REQUEST_TICKET_ID + requestTicket.getId());
         requestTicketRepository.save(requestTicket);
 
@@ -196,7 +196,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     @Override
     public MessageResponse garageCanceledForRequestTicket(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.GARAGE_CANCELED);
+        requestTicket.setStatus(RequestTicketsStatus.CANCELED);
         requestTicketRepository.save(requestTicket);
 
         FirebaseNotification firebaseNotification = new FirebaseNotification(LocalDateTime.now(), getUserId(),
@@ -210,7 +210,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     @Override
     public MessageResponse garageHandoverMoto(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.GARAGE_HANDED_OVER_MOTO);
+        requestTicket.setStatus(RequestTicketsStatus.COMPLETED);
         requestTicketRepository.save(requestTicket);
 
         FirebaseNotification firebaseNotification = new FirebaseNotification(LocalDateTime.now(), getUserId(),
@@ -224,7 +224,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     @Override
     public MessageResponse confirmPayment(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.COMPLETED_PAYMENT);
+        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
         requestTicketRepository.save(requestTicket);
 
         FirebaseNotification firebaseNotification = new FirebaseNotification(LocalDateTime.now(), getUserId(),
