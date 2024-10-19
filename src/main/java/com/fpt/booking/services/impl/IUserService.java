@@ -232,7 +232,7 @@ public class IUserService extends BaseService implements UserService {
     public Page<RequestTicketResponse> getAllRequestTicket(RequestTicketsStatus status, Integer pageNo, Integer pageSize) {
         int page = pageNo == 0 ? pageNo : pageNo - 1;
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<RequestTicket> requestTickets = requestTicketRepository.findAllByDriverOrStatus(getAccountById(), status, pageable);
+        Page<RequestTicket> requestTickets = requestTicketRepository.findAllByDriverAndStatus(getAccountById(), status, pageable);
         return commonMapper.convertToResponsePage(requestTickets, RequestTicketResponse.class, pageable);
     }
 

@@ -23,7 +23,7 @@ public class MechanicController extends BaseController {
     @GetMapping("/get-all-request-ticket")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Get all request ticket")
-    public ResponseEntity<?> getAllRequestTicket(@RequestParam RequestTicketsStatus status,
+    public ResponseEntity<?> getAllRequestTicket(@RequestParam(required = false) RequestTicketsStatus status,
                                                  @RequestParam(required = false, defaultValue = "1") Integer pageNo,
                                                  @RequestParam(required = false, defaultValue = "10") Integer pageSize){
         return createSuccessResponse("Danh sách của phiếu yêu cầu", mechanicService.getAllRequestTicket(status,pageNo, pageSize));

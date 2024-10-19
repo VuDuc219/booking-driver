@@ -239,7 +239,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     public Page<RequestTicketResponse> getAllRequestTicket(RequestTicketsStatus status, Integer pageNo, Integer pageSize) {
         int page = pageNo == 0 ? pageNo : pageNo - 1;
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<RequestTicket> requestTickets = requestTicketRepository.findAllByMechanicOrStatus(getAccountById(), status, pageable);
+        Page<RequestTicket> requestTickets = requestTicketRepository.findAllByMechanicAndStatus(getAccountById(), status, pageable);
         return commonMapper.convertToResponsePage(requestTickets, RequestTicketResponse.class, pageable);
     }
 

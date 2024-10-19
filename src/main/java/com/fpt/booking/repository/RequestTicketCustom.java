@@ -5,10 +5,9 @@ import com.fpt.booking.domain.entities.User;
 import com.fpt.booking.domain.enums.RequestTicketsStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface RequestTicketRepository extends JpaRepository<RequestTicket, Long> , RequestTicketCustom{
+public interface RequestTicketCustom {
+    Page<RequestTicket> findAllByMechanicAndStatus(User mechanic, RequestTicketsStatus requestTicketsStatus, Pageable pageable);
 
+    Page<RequestTicket> findAllByDriverAndStatus(User user, RequestTicketsStatus requestTicketsStatus, Pageable pageable);
 }
