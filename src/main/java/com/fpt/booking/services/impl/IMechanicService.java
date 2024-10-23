@@ -29,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -240,6 +241,14 @@ public class IMechanicService extends BaseService implements MechanicService {
         int page = pageNo == 0 ? pageNo : pageNo - 1;
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<RequestTicket> requestTickets = requestTicketRepository.findAllByMechanicAndStatus(getAccountById(), status, pageable);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        for (RequestTicket ticket : requestTickets) {
+            LocalDateTime appointmentDate = ticket.getAppointmentTime();
+            String formattedDate = appointmentDate.format(formatter);
+            ticket.setFormattedAppointmentDate(formattedDate);
+            log.info("Formatted Appointment Date: " + formattedDate);
+        }
         return commonMapper.convertToResponsePage(requestTickets, RequestTicketResponse.class, pageable);
     }
 

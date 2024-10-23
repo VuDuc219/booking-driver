@@ -8,9 +8,11 @@ import com.fpt.booking.domain.entities.User;
 import com.fpt.booking.domain.entities.Voucher;
 import com.fpt.booking.domain.payload.request.VoucherRequest;
 import com.fpt.booking.domain.payload.response.MessageResponse;
+import com.fpt.booking.domain.payload.response.Revenue;
 import com.fpt.booking.domain.payload.response.UserResponse;
 import com.fpt.booking.domain.payload.response.VoucherResponse;
 import com.fpt.booking.exception.BadRequestException;
+import com.fpt.booking.repository.RequestTicketRepository;
 import com.fpt.booking.repository.UserRepository;
 import com.fpt.booking.repository.VoucherRepository;
 import com.fpt.booking.services.AdminService;
@@ -36,6 +38,7 @@ public class IAdminService extends BaseService implements AdminService {
     private final ResourceBundleConfig resourceBundleConfig;
     private final UserRepository userRepository;
     private final FirebaseService firebaseService;
+    private final RequestTicketRepository requestTicketRepository;
     @Override
     public Page<VoucherResponse> getVoucherResponses(Integer pageNo, Integer pageSize) {
         int page = pageNo == 0 ? pageNo : pageNo - 1;
@@ -114,5 +117,10 @@ public class IAdminService extends BaseService implements AdminService {
                 .toList();
         Page<User> users = new PageImpl<>(mechanicUsers, pageable, mechanicUsers.size());
         return commonMapper.convertToResponsePage(users, UserResponse.class, pageable);
+    }
+
+    @Override
+    public Revenue sumOfRevenue() {
+        return requestTicketRepository.sumOfRevenue();
     }
 }

@@ -58,6 +58,9 @@ public class RequestTicket {
     @Column(name = "appointment_time")
     private LocalDateTime appointmentTime;
 
+    @Column(name = "formatted_appointment_date")
+    private String formattedAppointmentDate;
+
     public RequestTicket(User driver,  String motorbikeSpareParts, String description, RequestTicketsStatus status, RequestTicketType type, LocalDateTime appointmentTime) {
         this.driver = driver;
         this.motorbikeSpareParts = motorbikeSpareParts;

@@ -2,6 +2,7 @@ package com.fpt.booking.services;
 
 import com.fpt.booking.domain.payload.request.VoucherRequest;
 import com.fpt.booking.domain.payload.response.MessageResponse;
+import com.fpt.booking.domain.payload.response.Revenue;
 import com.fpt.booking.domain.payload.response.UserResponse;
 import com.fpt.booking.domain.payload.response.VoucherResponse;
 import org.springframework.data.domain.Page;
@@ -18,4 +19,6 @@ public interface AdminService {
     Page<UserResponse> getPageOfReviewApplication(Integer pageNo, Integer pageSize);
 
     Page<UserResponse> getPageAll(Integer pageNo, Integer pageSize);
+
+    Revenue sumOfRevenue();
 }

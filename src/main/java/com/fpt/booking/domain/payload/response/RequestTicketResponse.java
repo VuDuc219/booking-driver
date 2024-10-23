@@ -32,4 +32,6 @@ public class RequestTicketResponse {
     private PaymentType paymentType;
 
     private LocalDateTime appointmentTime;
+
+    private String formattedAppointmentDate;
 }

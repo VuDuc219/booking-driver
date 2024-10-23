@@ -10,4 +10,6 @@ public interface RequestTicketCustom {
     Page<RequestTicket> findAllByMechanicAndStatus(User mechanic, RequestTicketsStatus requestTicketsStatus, Pageable pageable);
 
     Page<RequestTicket> findAllByDriverAndStatus(User user, RequestTicketsStatus requestTicketsStatus, Pageable pageable);
+
+
 }

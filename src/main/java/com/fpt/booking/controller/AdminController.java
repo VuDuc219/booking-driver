@@ -27,6 +27,13 @@ public class AdminController extends BaseController {
         return createSuccessResponse("Get page of voucher", adminService.getVoucherResponses(pageNo, pageSize));
     }
 
+    @GetMapping("/sum-of-revenue")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Sum of revenue")
+    public ResponseEntity<?> sumOfRevenue() {
+        return createSuccessResponse("Sum of revenue", adminService.sumOfRevenue());
+    }
+
     @GetMapping("/get-all-review-application")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Get page of review application")
@@ -79,4 +86,6 @@ public class AdminController extends BaseController {
     public ResponseEntity<?> upgradeMechanicToCustomer(@PathVariable Long userId) {
         return createSuccessResponse("Nâng cấp quyền của khách hàng", authService.upgradeMechanicToCustomer(userId));
     }
+
+
 }
