@@ -45,7 +45,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     @Override
     public MessageResponse createNewGarage(GarageRequest garageRequest) {
         User account = getAccountById();
-        if (account.getMoto().getId() != null) {
+        if (account.getGarage() != null) {
             throw new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.ONLY_GARAGE));
         }
 
