@@ -225,7 +225,7 @@ public class IMechanicService extends BaseService implements MechanicService {
     @Override
     public MessageResponse confirmPayment(Long id) {
         RequestTicket requestTicket = requestTicketRepository.findById(id).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.REQUEST_TICKET_NOT_FOUND)));
-        requestTicket.setStatus(RequestTicketsStatus.PROCESSING);
+        requestTicket.setStatus(RequestTicketsStatus.COMPLETED);
         requestTicketRepository.save(requestTicket);
 
         FirebaseNotification firebaseNotification = new FirebaseNotification(LocalDateTime.now(), getUserId(),
