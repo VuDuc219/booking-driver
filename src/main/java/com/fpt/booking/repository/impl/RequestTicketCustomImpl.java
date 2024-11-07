@@ -32,7 +32,7 @@ public class RequestTicketCustomImpl implements RequestTicketCustom {
             strQuery.append(" AND rt.status = :status  ");
             params.put("status", requestTicketsStatus.getValue());
         }
-        String selectQuery = "select * " + strQuery;
+        String selectQuery = "select * " + strQuery + " ORDER BY rt.id DESC";
         String strCountQuery = "SELECT COUNT(DISTINCT rt.id)" + strQuery;
 
 
@@ -54,7 +54,7 @@ public class RequestTicketCustomImpl implements RequestTicketCustom {
             strQuery.append(" AND rt.status = :status  ");
             params.put("status", requestTicketsStatus.getValue());
         }
-        String selectQuery = "select * " + strQuery;
+        String selectQuery = "select * " + strQuery + " ORDER BY rt.id DESC";
         String strCountQuery = "SELECT COUNT(DISTINCT rt.id)" + strQuery;
 
 

@@ -7,10 +7,7 @@ import com.fpt.booking.domain.entities.FirebaseNotification;
 import com.fpt.booking.domain.entities.User;
 import com.fpt.booking.domain.entities.Voucher;
 import com.fpt.booking.domain.payload.request.VoucherRequest;
-import com.fpt.booking.domain.payload.response.MessageResponse;
-import com.fpt.booking.domain.payload.response.Revenue;
-import com.fpt.booking.domain.payload.response.UserResponse;
-import com.fpt.booking.domain.payload.response.VoucherResponse;
+import com.fpt.booking.domain.payload.response.*;
 import com.fpt.booking.exception.BadRequestException;
 import com.fpt.booking.repository.RequestTicketRepository;
 import com.fpt.booking.repository.UserRepository;
@@ -122,5 +119,10 @@ public class IAdminService extends BaseService implements AdminService {
     @Override
     public Revenue sumOfRevenue() {
         return requestTicketRepository.sumOfRevenue();
+    }
+
+    @Override
+    public List<RevenueForMechanic> sumRevenueOfMechanic() {
+        return requestTicketRepository.sumRevenueOfMechanic();
     }
 }

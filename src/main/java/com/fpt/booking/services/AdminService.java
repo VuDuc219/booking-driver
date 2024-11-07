@@ -1,11 +1,10 @@
 package com.fpt.booking.services;
 
 import com.fpt.booking.domain.payload.request.VoucherRequest;
-import com.fpt.booking.domain.payload.response.MessageResponse;
-import com.fpt.booking.domain.payload.response.Revenue;
-import com.fpt.booking.domain.payload.response.UserResponse;
-import com.fpt.booking.domain.payload.response.VoucherResponse;
+import com.fpt.booking.domain.payload.response.*;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 
 public interface AdminService {
@@ -21,4 +20,6 @@ public interface AdminService {
     Page<UserResponse> getPageAll(Integer pageNo, Integer pageSize);
 
     Revenue sumOfRevenue();
+
+    List<RevenueForMechanic> sumRevenueOfMechanic();
 }
