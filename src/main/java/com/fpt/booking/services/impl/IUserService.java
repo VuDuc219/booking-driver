@@ -114,6 +114,7 @@ public class IUserService extends BaseService implements UserService {
                 RequestTicketsStatus.NEW,
                 requestTicketDTO.getType(),
                 RequestTicketType.SOS.equals(requestTicketDTO.getType()) ? LocalDateTime.now() : requestTicketDTO.getAppointmentDate());
+        requestTicket.setCreatedAt(LocalDateTime.now());
 
         FirebaseNotification firebaseNotification = new FirebaseNotification(LocalDateTime.now(), getUserId(),
                 resourceBundleConfig.getViMessage(MessageUtils.PUSH_NOTIFICATION_NEW_APPOINTMENT),

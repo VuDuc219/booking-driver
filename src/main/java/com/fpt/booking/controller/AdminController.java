@@ -41,6 +41,13 @@ public class AdminController extends BaseController {
         return createSuccessResponse("Sum of revenue", adminService.sumRevenueOfMechanic());
     }
 
+    @GetMapping("/sum-revenue-mechanic-for-week")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Sum of revenue")
+    public ResponseEntity<?> sumMechanicOfWeek() {
+        return createSuccessResponse("Sum of revenue", adminService.sumRevenueMechanicForWeek());
+    }
+
     @GetMapping("/get-all-review-application")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Get page of review application")

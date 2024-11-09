@@ -125,4 +125,9 @@ public class IAdminService extends BaseService implements AdminService {
     public List<RevenueForMechanic> sumRevenueOfMechanic() {
         return requestTicketRepository.sumRevenueOfMechanic();
     }
+
+    @Override
+    public List<RevenueOfMechanicForWeek> sumRevenueMechanicForWeek() {
+        return requestTicketRepository.sumRevenueMechanicForWeek();
+    }
 }

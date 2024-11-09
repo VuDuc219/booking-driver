@@ -22,4 +22,6 @@ public interface AdminService {
     Revenue sumOfRevenue();
 
     List<RevenueForMechanic> sumRevenueOfMechanic();
+
+    List<RevenueOfMechanicForWeek> sumRevenueMechanicForWeek();
 }
