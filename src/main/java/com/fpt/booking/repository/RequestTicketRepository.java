@@ -31,7 +31,7 @@ public interface RequestTicketRepository extends JpaRepository<RequestTicket, Lo
             "       SUM(rt.price) AS sumOfRevenue  " +
             "FROM request_ticket rt " +
             "INNER JOIN users u ON rt.mechanic_id = u.id " +
-            "WHERE rt.created_at >= DATE_ADD(NOW(), INTERVAL (1 - DAYOFWEEK(NOW())) DAY) " +
+            "WHERE rt.created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) " +
             "  AND rt.created_at < NOW() " +
             "GROUP BY u.name, YEAR(rt.created_at), MONTH(rt.created_at), WEEK(rt.created_at, 1) " +
             "ORDER BY week; ", nativeQuery = true )
