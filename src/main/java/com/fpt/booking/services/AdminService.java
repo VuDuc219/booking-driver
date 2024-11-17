@@ -24,4 +24,6 @@ public interface AdminService {
     List<RevenueForMechanic> sumRevenueOfMechanic();
 
     List<RevenueOfMechanicForWeek> sumRevenueMechanicForWeek();
+
+    Page<RequestTicketResponse> getPageRequestTicket(Integer pageNo, Integer pageSize);
 }

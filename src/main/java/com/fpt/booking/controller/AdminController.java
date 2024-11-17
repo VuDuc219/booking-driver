@@ -56,6 +56,14 @@ public class AdminController extends BaseController {
         return createSuccessResponse("Get page of review application", adminService.getPageOfReviewApplication(pageNo, pageSize));
     }
 
+    @GetMapping("/get-all-request-ticket")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Get page of review application")
+    public ResponseEntity<?> getPageOfRequestTicket(@RequestParam Integer pageNo,
+                                                        @RequestParam Integer pageSize){
+        return createSuccessResponse("Get page of review application", adminService.getPageRequestTicket(pageNo, pageSize));
+    }
+
 
     @GetMapping("/get-all-user")
     @SecurityRequirement(name = "Bearer Authentication")

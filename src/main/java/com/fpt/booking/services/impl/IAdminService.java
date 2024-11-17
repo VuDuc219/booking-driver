@@ -130,4 +130,11 @@ public class IAdminService extends BaseService implements AdminService {
     public List<RevenueOfMechanicForWeek> sumRevenueMechanicForWeek() {
         return requestTicketRepository.sumRevenueMechanicForWeek();
     }
+
+    @Override
+    public Page<RequestTicketResponse> getPageRequestTicket(Integer pageNo, Integer pageSize) {
+        int page = pageNo == 0 ? pageNo : pageNo - 1;
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return commonMapper.convertToResponsePage(requestTicketRepository.findAll(pageable), RequestTicketResponse.class, pageable);
+    }
 }

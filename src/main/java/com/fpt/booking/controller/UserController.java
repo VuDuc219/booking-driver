@@ -24,8 +24,9 @@ public class UserController extends BaseController {
     @Operation(summary = "Find mechanic in radius 5km")
     public ResponseEntity<?> findMechanicInRadius(@RequestParam(required = false) Double latitude,
                                                   @RequestParam(required = false) Double longitude,
+                                                  @RequestParam(required = false) String address,
                                                   @RequestParam String type){
-        return createSuccessResponse("Khoảng cách từ xe tới mechanic", userService.findMechanicInRadius(latitude, longitude, type));
+        return createSuccessResponse("Khoảng cách từ xe tới mechanic", userService.findMechanicInRadius(latitude, longitude,address, type));
     }
 
     @GetMapping("/get-all-type")

@@ -24,6 +24,8 @@ public class RequestTicketDTO {
 
     private Double longiTude;
 
+    private String address;
+
     private LocalDateTime appointmentDate;
 
     private RequestTicketType type;

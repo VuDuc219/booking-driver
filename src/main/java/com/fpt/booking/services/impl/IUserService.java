@@ -53,8 +53,8 @@ public class IUserService extends BaseService implements UserService {
     private final FirebaseService firebaseService;
 
     @Override
-    public List<GarageResponse> findMechanicInRadius(Double latitude, Double longitude, String type) {
-        if ("DISTACE".equals(type)) {
+    public List<GarageResponse> findMechanicInRadius(Double latitude, Double longitude,String address, String type) {
+        if ("DISTANCE".equals(type)) {
             return garageRepository.findAll().stream()
                     .filter(garage -> calculateDistance(latitude, longitude, garage.getLatiTude(), garage.getLongiTude()) <= 5.0)
                     .map(garage -> {
@@ -64,7 +64,17 @@ public class IUserService extends BaseService implements UserService {
                         return garageResponse;
                     })
                     .collect(Collectors.toList());
-        } else {
+        } else if ("ADDRESS".equals(type)) {
+            return garageRepository.findAll().stream()
+                    .filter(garage ->  garage.getAddress().contains(address))
+                    .map(garage -> {
+                        GarageResponse garageResponse = commonMapper.convertToResponse(garage, GarageResponse.class);
+                        garageResponse.setDistance(calculateDistance(latitude, longitude, garage.getLatiTude(), garage.getLongiTude()));
+                        garageResponse.setMechanicId(garage.getUser().getId());
+                        return garageResponse;
+                    })
+                    .collect(Collectors.toList());
+        }else {
             return garageRepository.findAll().stream()
                     .map(garage -> {
                         GarageResponse garageResponse = commonMapper.convertToResponse(garage, GarageResponse.class);
@@ -115,6 +125,7 @@ public class IUserService extends BaseService implements UserService {
                 requestTicketDTO.getType(),
                 RequestTicketType.SOS.equals(requestTicketDTO.getType()) ? LocalDateTime.now() : requestTicketDTO.getAppointmentDate());
         requestTicket.setCreatedAt(LocalDateTime.now());
+        requestTicket.setAddress(requestTicket.getAddress());
 
         FirebaseNotification firebaseNotification = new FirebaseNotification(LocalDateTime.now(), getUserId(),
                 resourceBundleConfig.getViMessage(MessageUtils.PUSH_NOTIFICATION_NEW_APPOINTMENT),
@@ -124,7 +135,7 @@ public class IUserService extends BaseService implements UserService {
                         requestTicketDTO.getType()));
 
         if (RequestTicketType.SOS.equals(requestTicketDTO.getType())){
-            for (GarageResponse g : findMechanicInRadius(requestTicketDTO.getLatiTude(), requestTicketDTO.getLongiTude(),"DISTANCE")) {
+            for (GarageResponse g : findMechanicInRadius(requestTicketDTO.getLatiTude(), requestTicketDTO.getLongiTude(), requestTicketDTO.getAddress(), "DISTANCE")) {
                 log.info("Mechanic ID" + g.getMechanicId());
                 firebaseService.sendNotificationToDevices(g.getMechanicId(), firebaseNotification);
             }

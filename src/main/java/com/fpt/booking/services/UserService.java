@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface UserService {
-    List<GarageResponse> findMechanicInRadius(Double latitude, Double longitude, String type);
+    List<GarageResponse> findMechanicInRadius(Double latitude, Double longitude,String address, String type);
 
     MessageResponse createNewMoto(MotoRequest motoRequest);
 
