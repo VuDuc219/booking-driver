@@ -4,8 +4,10 @@ import com.fpt.booking.common.CommonMapper;
 import com.fpt.booking.common.Constant;
 import com.fpt.booking.config.ResourceBundleConfig;
 import com.fpt.booking.domain.entities.FirebaseNotification;
+import com.fpt.booking.domain.entities.Role;
 import com.fpt.booking.domain.entities.User;
 import com.fpt.booking.domain.entities.Voucher;
+import com.fpt.booking.domain.enums.RoleName;
 import com.fpt.booking.domain.payload.request.VoucherRequest;
 import com.fpt.booking.domain.payload.response.*;
 import com.fpt.booking.exception.BadRequestException;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

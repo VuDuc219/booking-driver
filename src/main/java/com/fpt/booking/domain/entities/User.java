@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fpt.booking.domain.enums.AuthProvider;
 import com.fpt.booking.domain.enums.DateAudit;
+import com.fpt.booking.domain.enums.RoleName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -15,11 +16,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -97,5 +98,11 @@ public class User extends DateAudit {
 		this.isLocked = isLocked;
 		this.isActive = isActive;
 		this.isMechanic = false;
+	}
+
+	public Set<RoleName> getRoleNames() {
+		return roles.stream()
+				.map(Role::getName)
+				.collect(Collectors.toSet());
 	}
 }

@@ -3,10 +3,7 @@ package com.fpt.booking.services.impl;
 import com.fpt.booking.common.CommonMapper;
 import com.fpt.booking.common.Constant;
 import com.fpt.booking.config.ResourceBundleConfig;
-import com.fpt.booking.domain.entities.FirebaseNotification;
-import com.fpt.booking.domain.entities.Moto;
-import com.fpt.booking.domain.entities.RequestTicket;
-import com.fpt.booking.domain.entities.User;
+import com.fpt.booking.domain.entities.*;
 import com.fpt.booking.domain.enums.PaymentType;
 import com.fpt.booking.domain.enums.RequestTicketType;
 import com.fpt.booking.domain.enums.RequestTicketsStatus;
@@ -135,9 +132,11 @@ public class IUserService extends BaseService implements UserService {
                         requestTicketDTO.getType()));
 
         if (RequestTicketType.SOS.equals(requestTicketDTO.getType())){
-            for (GarageResponse g : findMechanicInRadius(requestTicketDTO.getLatiTude(), requestTicketDTO.getLongiTude(), requestTicketDTO.getAddress(), "DISTANCE")) {
-                log.info("Mechanic ID" + g.getMechanicId());
-                firebaseService.sendNotificationToDevices(g.getMechanicId(), firebaseNotification);
+            for (Garage g : garageRepository.findAll()) {
+                log.info("Mechanic ID" + g.getUser().getId());
+                firebaseService.sendNotificationToDevices(g.getUser().getId(), firebaseNotification);
+                requestTicket.setMechanic(g.getUser());
+                requestTicketRepository.save(requestTicket);
             }
         } else {
             if (requestTicketDTO.getMechanicId() == null)
@@ -145,8 +144,9 @@ public class IUserService extends BaseService implements UserService {
             User mechanic = userRepository.findById(requestTicketDTO.getMechanicId()).orElseThrow(() -> new BadRequestException(resourceBundleConfig.getViMessage(MessageUtils.GARAGE_WITH_TICKET_TYPE)));
             requestTicket.setMechanic(mechanic);
             firebaseService.sendNotificationToDevices(requestTicketDTO.getMechanicId(), firebaseNotification);
+            requestTicketRepository.save(requestTicket);
         }
-        requestTicketRepository.save(requestTicket);
+
         return LongResponse.builder().requestTicketId(requestTicket.getId()).build();
     }
 

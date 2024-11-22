@@ -31,5 +31,16 @@ public class UserResponse {
     private MotoResponse moto;
 
     private RoleName roleName;
+    public RoleName getRoleName() {
+        if (garage == null) {
+            return RoleName.ROLE_USER;
+        } else {
+            return RoleName.ROLE_MECHANIC;
+        }
+    }
+
+    public void setRoleName(RoleName roleName) {
+        this.roleName = roleName;
+    }
 
 }
