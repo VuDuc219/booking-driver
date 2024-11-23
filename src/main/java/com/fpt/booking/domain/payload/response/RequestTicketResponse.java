@@ -27,6 +27,8 @@ public class RequestTicketResponse {
 
     private RequestTicketsStatus status;
 
+    private String address;
+
     private RequestTicketType type;
 
     private PaymentType paymentType;
