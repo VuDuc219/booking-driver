@@ -6,5 +6,6 @@ public interface RevenueOfMechanicForWeek {
     String getMonth();
     String getWeek();
     Double getSumOfRevenue();
+    Integer getNumOfRq();
 
 }

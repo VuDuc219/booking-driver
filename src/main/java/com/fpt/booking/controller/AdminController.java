@@ -41,11 +41,11 @@ public class AdminController extends BaseController {
         return createSuccessResponse("Sum of revenue", adminService.sumRevenueOfMechanic());
     }
 
-    @GetMapping("/sum-revenue-mechanic-for-week")
+    @GetMapping("/sum-revenue-mechanic")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Sum of revenue")
-    public ResponseEntity<?> sumMechanicOfWeek() {
-        return createSuccessResponse("Sum of revenue", adminService.sumRevenueMechanicForWeek());
+    public ResponseEntity<?> sumMechanicOfWeek(@RequestParam String type) {
+        return createSuccessResponse("Sum of revenue", adminService.sumRevenueMechanicForWeek(type));
     }
 
     @GetMapping("/get-all-review-application")

@@ -23,7 +23,7 @@ public interface AdminService {
 
     List<RevenueForMechanic> sumRevenueOfMechanic();
 
-    List<RevenueOfMechanicForWeek> sumRevenueMechanicForWeek();
+    List<RevenueOfMechanicForWeek> sumRevenueMechanicForWeek(String type);
 
     Page<RequestTicketResponse> getPageRequestTicket(Integer pageNo, Integer pageSize);
 }
