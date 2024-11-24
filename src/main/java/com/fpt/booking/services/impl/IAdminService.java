@@ -135,6 +135,8 @@ public class IAdminService extends BaseService implements AdminService {
             return requestTicketRepository.sumRevenueMechanicForWeek();
         } else if (type.equals("YEAR")) {
             return requestTicketRepository.sumRevenueMechanicForYear();
+        } else if (type.equals("MONTH")){
+            return requestTicketRepository.sumRevenueMechanicForMonth();
         } else {
             return requestTicketRepository.sumRevenueMechanicForDate();
         }

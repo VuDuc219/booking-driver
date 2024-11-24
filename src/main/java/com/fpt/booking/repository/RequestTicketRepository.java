@@ -38,6 +38,7 @@ public interface RequestTicketRepository extends JpaRepository<RequestTicket, Lo
             "WHERE " +
             " rt.created_at >=  DATE_ADD(NOW(), INTERVAL -7 DAY) " +
             " AND rt.created_at < NOW() " +
+            " AND rt.status = 'COMPLETED' " +
             "GROUP BY " +
             " u.name, " +
             " YEAR(rt.created_at), " +
@@ -68,6 +69,27 @@ public interface RequestTicketRepository extends JpaRepository<RequestTicket, Lo
             "    date;", nativeQuery = true )
     List<RevenueOfMechanicForWeek> sumRevenueMechanicForDate();
 
+    @Query(value = "SELECT " +
+            "    u.name AS name, " +
+            "    YEAR(rt.created_at) AS year, " +
+            "    MONTH(rt.created_at) AS month, " +
+            "    SUM(rt.price) AS sumOfRevenue, " +
+            "    COUNT(rt.id) AS numOfRq " +
+            "FROM " +
+            "    request_ticket rt " +
+            "INNER JOIN users u ON " +
+            "    rt.mechanic_id = u.id " +
+            "WHERE " +
+            "    rt.created_at >= DATE_ADD(NOW(), INTERVAL -30 DAY) " +
+            "    AND rt.created_at < NOW() " +
+            "    AND rt.status = 'COMPLETED' " +
+            "GROUP BY " +
+            "    u.name, " +
+            "    YEAR(rt.created_at), " +
+            "    MONTH(rt.created_at) " +
+            "ORDER BY " +
+            "    year, month; ", nativeQuery = true )
+    List<RevenueOfMechanicForWeek> sumRevenueMechanicForMonth();
 
     @Query(value = "SELECT " +
             "    u.name AS name, " +
